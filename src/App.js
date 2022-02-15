@@ -1,11 +1,14 @@
 import { Component } from "react";
 import { CardList } from "./components/card-list/card-list";
+import { SearchBox } from "./components/search-box/search-box";
 
+import "./App.css"
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      monsters: []
+      monsters: [],
+      searchQuery: ''
     }
   }
 
@@ -16,9 +19,17 @@ class App extends Component {
   }
 
   render() {
+    const { monsters, searchQuery } = this.state;
+    const handleSearch = (text) => {
+      this.setState({ searchQuery: text })
+    }
+    const filteredMonsters = monsters.filter(monster => monster.name.toLowerCase().includes(searchQuery.toLowerCase()));
+    
     return (
       <div className="App">
-        <CardList monsters={this.state.monsters} />
+        <h1 className='title'>Monster's Rolodex</h1>
+        <SearchBox searchFunction={handleSearch} />
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
